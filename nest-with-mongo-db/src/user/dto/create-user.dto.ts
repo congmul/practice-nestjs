@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsNumber } from 'class-validator';
+import { IsString, IsEmail, IsNumber, IsNotEmpty } from 'class-validator';
 
 // Only accept thoes properties in the class, if there is otherProperty in Body, they will be ignored. (No error handle)
 export class CreateUserDto {
@@ -10,4 +10,7 @@ export class CreateUserDto {
 
   @IsNumber()
   age: number;
+
+  @IsString()
+  password: string;
 }

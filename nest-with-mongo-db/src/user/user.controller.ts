@@ -14,6 +14,7 @@ export class UserController {
         return this.userService.createUser(
           createUserDto.name,
           createUserDto.email,
+          createUserDto.password,
           createUserDto.age,
         );
     }catch(error){
