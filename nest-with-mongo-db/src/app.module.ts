@@ -5,9 +5,27 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { envValidate } from './env.validation';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost/nest'), UserModule, TransactionModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot(
+      {
+        isGlobal: true, // Make ConfigModule globally available
+        envFilePath: '.env',
+        validate: envValidate
+      }
+    ),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URI'), // Access the MONGODB_URI variable
+      }),
+      inject: [ConfigService],
+    }), 
+    UserModule, TransactionModule, AuthModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
