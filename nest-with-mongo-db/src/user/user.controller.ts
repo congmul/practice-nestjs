@@ -11,23 +11,37 @@ export class UserController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     try{
-        return this.userService.createUser(
-          createUserDto.name,
-          createUserDto.email,
-          createUserDto.password,
-          createUserDto.age,
-        );
+      return await this.userService.createUser(
+        createUserDto.email,
+        createUserDto.password,
+        createUserDto.firstName,
+        createUserDto.lastName,
+        createUserDto.role,
+      );
     }catch(error){
+      if(error.type === 'duplicated'){
         throw new HttpException(
-            {
-                status: HttpStatus.FORBIDDEN,
-                error: 'This is a custom message'
-            },
-            HttpStatus.FORBIDDEN, 
-            {
-                cause: error
-            }
-    )
+          {
+            // TODO: need to find correct httpStatus
+            status: HttpStatus.CONFLICT,
+            error: `the email, "${createUserDto.email}", is already existing`
+          },
+          HttpStatus.CONFLICT, 
+          {
+            cause: error
+          }
+        )
+      }
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'This is a custom message'
+        },
+        HttpStatus.FORBIDDEN, 
+        {
+          cause: error
+        }
+      )
     }
   }
 

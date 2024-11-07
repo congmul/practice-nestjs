@@ -7,8 +7,12 @@ import { User } from './user.schema';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async createUser(name: string, email: string, password:string, age: number): Promise<User> {
-    const newUser = new this.userModel({ name, email, password, age });
+  async createUser(email: string, password:string, firstName:string, lastName:string, role:string): Promise<User> {
+    const exiting = await this.findOne(email);
+    if(exiting){
+      throw { type: "duplicated" }
+    }
+    const newUser = new this.userModel({ email, password, firstName, lastName, role });
     return newUser.save();
   }
 
