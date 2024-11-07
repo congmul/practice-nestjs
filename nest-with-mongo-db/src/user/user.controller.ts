@@ -35,7 +35,7 @@ export class UserController {
       throw new HttpException(
         {
           status: HttpStatus.FORBIDDEN,
-          error: 'This is a custom message'
+          error: error
         },
         HttpStatus.FORBIDDEN, 
         {

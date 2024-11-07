@@ -16,7 +16,7 @@ export class User extends Document {
   @Prop()
   lastName: string;
 
-  @Prop()
+  @Prop({ enum: ['admin', 'member']})
   role: string;
 }
 
