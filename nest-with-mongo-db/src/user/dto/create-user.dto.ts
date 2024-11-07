@@ -1,16 +1,20 @@
-import { IsString, IsEmail, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
 
 // Only accept thoes properties in the class, if there is otherProperty in Body, they will be ignored. (No error handle)
 export class CreateUserDto {
-  @IsString()
-  name: string;
-
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
-  @IsNumber()
-  age: number;
+  @IsNotEmpty()
+  password: string
 
   @IsString()
-  password: string;
+  firstName: string
+
+  @IsString()
+  lastName: string
+
+  @IsString()
+  role: string;
 }
