@@ -7,6 +7,9 @@ import { TransactionModule } from './transaction/transaction.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envValidate } from './env.validation';
+import { TeamModule } from './team/team.module';
+import { CoachModule } from './coach/coach.module';
+import { PlayerModule } from './player/player.module';
 
 @Module({
   imports: [
@@ -24,7 +27,7 @@ import { envValidate } from './env.validation';
       }),
       inject: [ConfigService],
     }), 
-    UserModule, TransactionModule, AuthModule
+    UserModule, TransactionModule, AuthModule, TeamModule, CoachModule, PlayerModule
   ],
   controllers: [AppController],
   providers: [AppService],
